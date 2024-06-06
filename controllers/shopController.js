@@ -3,7 +3,7 @@ const Shopuser = require("../models/Shopuser");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { body, validationResult } = require("express-validator");
-const { generateNewToken } = require("../controllers/generateNewToken");
+const { generateNewToken } = require("./generateNewToken");
 
 async function getProducts(req, res) {
   try {
