@@ -18,7 +18,7 @@ app.use("/users", usersRoutes);
 app.use("/products", productsRoutes);
 app.use("/shop", shopRoutes);
 // Start the server
-const PORT = 4000 || process.env.PORT;
+const PORT = 3000 || process.env.PORT;
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
   app.listen(PORT, () => {
