@@ -2,21 +2,21 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const merchandAuthRoutes = require("./routes/merchand/authRoutes");
-const usersRoutes = require("./routes/merchand/usersRoutes")
+const usersRoutes = require("./routes/merchand/usersRoutes");
 const productsRoutes = require("./routes/merchand/productsRoutes");
-const shopRoutes = require("./routes/shopRoutes")
+const shopRoutes = require("./routes/shopRoutes");
 const app = express();
 
 // Import route files
 app.use(express.json());
-app.use("/",get,(req,res)=>{
+app.get("/", (req, res) => {
   return res.json("welcome to sandip-api point end!");
 });
 // Merchand Authroutes
 app.use("/auth", merchandAuthRoutes);
-app.use("/users",usersRoutes);
-app.use("/products",productsRoutes)
-app.use("/shop",shopRoutes)
+app.use("/users", usersRoutes);
+app.use("/products", productsRoutes);
+app.use("/shop", shopRoutes);
 // Start the server
 const PORT = 4000 || process.env.PORT;
 
