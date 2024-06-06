@@ -1,10 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const merchandAuthRoutes = require("./api/routes/merchand/authRoutes");
-const usersRoutes = require("./api/routes/merchand/usersRoutes")
-const productsRoutes = require("./api/routes/merchand/productsRoutes");
-const shopRoutes = require("./api/routes/shopRoutes")
+const merchandAuthRoutes = require("./routes/merchand/authRoutes");
+const usersRoutes = require("./routes/merchand/usersRoutes")
+const productsRoutes = require("./routes/merchand/productsRoutes");
+const shopRoutes = require("./routes/shopRoutes")
 const app = express();
 
 // Import route files
