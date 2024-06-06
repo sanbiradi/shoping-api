@@ -9,7 +9,6 @@ const checkBearerToken = require("../middleware/merchand/checkBearerToken");
 router.get("/products", shopController.getProducts);
 router.post(
   "/auth/register",
-  upload.single("profile_pic"),
   shopController.registerUser
 );
 router.post("/auth/login", shopController.loginUser);
