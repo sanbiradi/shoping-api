@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reCAPTCHA v3 Example</title>
+    <!-- Include reCAPTCHA script -->
+    
+   
+</head>
+<body>
+    <h1>reCAPTCHA v3 Example</h1>
+    <form id="form" action="" method="POST">
+        <!-- Add element to store reCAPTCHA token -->
+        <label for="name">name</label>
+        <input type="text" id="name" name="name">
+        <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+        <!-- Your other form fields go here -->
+        <input type="submit" value="Submit">
+        <div id="display"></div>
+    </form>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdaDrMpAAAAAJZXAecLmYapMG3AbvVpfM11CMT_"></script>
+    <script>
+        document.getElementById("form").addEventListener("submit",(e)=>{
+            e.preventDefault();
+            onloadCallback();
+        })
+        // Callback function to execute when reCAPTCHA is loaded
+        function onloadCallback() {
+            let  display = document.getElementById("display");
+            // Render the reCAPTCHA widget
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LdaDrMpAAAAAJZXAecLmYapMG3AbvVpfM11CMT_', {action: 'submit'}).then(function(token) {
+                    // Add token to the form
+                    display.innerHTML  = token;
+                });
+            });
+        }
+    </script>
+</body>
+</html>

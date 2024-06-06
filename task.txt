@@ -1,0 +1,19 @@
+
+normal user schema
+addresses
+createdAt
+deleted
+email
+name
+picture: "https://i.imgur.com/CR1iy7U.png"
+updatedAt
+_id vc[]
+expires
+token
+good afternoon minali, 
+as you said i looked the website but there's no corresponding role matched but previously 
+i saw the thinkschool for engineering graduates.
+I'm so interested in thinkSchool for learning about technologies and Thinkbridge creative organization. 
+I have 6 months Internship experience at Angular Minds in node js and reactjs framework 
+I worked with angular/Typescript and also decent frontend skills so please ensure my proposal for this role and check out my profile.
+Thank youhu9y  ydfvg fvc
