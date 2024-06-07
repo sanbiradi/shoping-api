@@ -3,7 +3,7 @@ const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
 const Product = require("../../models/Product");
 const Merchand = require("../../models/Merchand");
-
+const { Readable } = require("stream");
 // Cloudinary configuration
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -19,11 +19,10 @@ async function createProduct(req, res) {
   // Access product details from the request body
   const { name, description, price } = req.body;
 
-  // validation for the property
+  // Validation for the property
   if (!name) {
     return res.status(403).json({ error: "'name' property is required" });
   }
-
   if (!description) {
     return res
       .status(403)
@@ -32,7 +31,6 @@ async function createProduct(req, res) {
   if (!price) {
     return res.status(403).json({ error: "'price' property is required" });
   }
-
   if (!req.files || req.files.length === 0) {
     return res.status(400).json({ error: "No image uploaded" });
   }
@@ -44,12 +42,26 @@ async function createProduct(req, res) {
 
   try {
     for (const image of images) {
-      const result = await cloudinary.uploader.upload(image.path, {
-        folder: "products",
-      });
+      const uploadStream = () => {
+        return new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: "products" },
+            (error, result) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(result);
+              }
+            }
+          );
 
+          // Convert buffer to stream and pipe to Cloudinary
+          Readable.from(image.buffer).pipe(stream);
+        });
+      };
+
+      const result = await uploadStream();
       imagesUrl.push(result.url);
-      fs.unlinkSync(image.path);
     }
 
     const newProduct = new Product({
@@ -72,7 +84,7 @@ async function createProduct(req, res) {
           description: description,
           price: price,
           createdAt: newProduct.createdAt,
-          udpatedAt: newProduct.updatedAt,
+          updatedAt: newProduct.updatedAt,
         },
         statusCode: 200,
       });
@@ -161,6 +173,8 @@ const deleteProduct = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
 const uploadNewProductImages = async (req, res) => {
   if (!req.files || req.files.length === 0) {
     return res.status(400).json({ error: "No image uploaded" });
@@ -182,11 +196,26 @@ const uploadNewProductImages = async (req, res) => {
 
     // Upload new images to Cloudinary
     for (const image of images) {
-      const result = await cloudinary.uploader.upload(image.path, {
-        folder: "products",
-      });
+      const uploadStream = () => {
+        return new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: "products" },
+            (error, result) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(result);
+              }
+            }
+          );
+
+          // Convert buffer to stream and pipe to Cloudinary
+          Readable.from(image.buffer).pipe(stream);
+        });
+      };
+
+      const result = await uploadStream();
       imagesUrl.push(result.url);
-      fs.unlinkSync(image.path);
     }
 
     const existProduct = await Product.findOne({ _id: productId });
@@ -227,6 +256,7 @@ const uploadNewProductImages = async (req, res) => {
     res.status(500).json({ error: "Failed to process images", errorcode: "403" });
   }
 };
+
 
 
 module.exports = {
