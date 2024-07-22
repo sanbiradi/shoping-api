@@ -36,7 +36,7 @@ const getOrderDetails = async (req, res) => {
   try {
     const orderId = req.params.id;
     const order = await Order.findOne({ _id: orderId });
-    console.log(order);
+
     if (!order) {
       return res.status(404).json({ error: "Order not found" });
     }

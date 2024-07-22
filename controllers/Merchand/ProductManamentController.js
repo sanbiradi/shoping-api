@@ -174,7 +174,6 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-
 const uploadNewProductImages = async (req, res) => {
   if (!req.files || req.files.length === 0) {
     return res.status(400).json({ error: "No image uploaded" });
@@ -232,7 +231,9 @@ const uploadNewProductImages = async (req, res) => {
       if (checkUrl) {
         const publicId = imageUrl.split("/").pop().split(".")[0];
         await cloudinary.uploader.destroy(publicId);
-        existProduct.images = existProduct.images.filter((url) => url !== imageUrl);
+        existProduct.images = existProduct.images.filter(
+          (url) => url !== imageUrl
+        );
       }
     }
 
@@ -253,11 +254,11 @@ const uploadNewProductImages = async (req, res) => {
     });
   } catch (error) {
     console.error("Error processing images:", error);
-    res.status(500).json({ error: "Failed to process images", errorcode: "403" });
+    res
+      .status(500)
+      .json({ error: "Failed to process images", errorcode: "403" });
   }
 };
-
-
 
 module.exports = {
   createProduct,
